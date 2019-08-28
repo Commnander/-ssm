@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <!--namespace表示命名空间，唯一  -->
+<mapper namespace="com.itheima.mapper.CustomerMapper">
+	<!-- if元素和where的使用 -->
+	<select id="findCustomerByNameAndJobs" 
+	resultType="com.itheima.po.Customer" 
+	parameterType="com.itheima.po.Customer">
+		select * from t_customer 
+<where>
+	<if test="username !=null and username !=''">
+		and username like concat('%',#{username},'%')
+	</if>
+	<if test="jobs !=null and jobs !=''">
+		and jobs=#{jobs}
+	</if>
+</where>
+		
+	</select>
+	
+	<!--choose标签的使用 (以及when和otherwise) -->
+	<select id="findCustomerByNameOrJobs" resultType="com.itheima.po.Customer" parameterType="com.itheima.po.Customer">
+		select * from t_customer 
+		<trim prefix="where" prefixOverrides="and">
+			<choose>
+			<when test="username !=null and username !=''">
+			and username like concat('%',#{username},'%')
+			</when>
+			<when test="jobs !=null and jobs !=''">
+			and jobs=#{jobs}
+			</when>
+			<otherwise>
+			and phone is not null
+			</otherwise>
+		</choose>
+		</trim>
+	</select>
+	
+	<!--set标签的使用  -->
+	<update id="updateCustomer" parameterType="com.itheima.po.Customer">
+		update t_customer
+		<set>
+			<if test="username !=null and username !=''">
+				username=#{username},
+			</if>
+			<if test="jobs !=null and jobs !=''">
+				jobs=#{jobs},
+			</if>
+			<if test="phone !=null and jobs !=''">
+				phone=#{phone},
+			</if>
+		</set>
+		where id=#{id}
+	</update>
+	<!--foreach标签的使用  -->
+	<select id="findCustomerByIds" parameterType="List" resultType="com.itheima.po.Customer">
+		select * from t_customer where id in
+		<foreach collection="list" item="id" 
+		index="index" open="(" separator="," close=")" >
+		#{id}
+		</foreach>
+	</select>
+	<!--blind标签  -->
+	<select id="findCustomerByName" parameterType="com.itheima.po.Customer"
+	 resultType="com.itheima.po.Customer">
+	 	<bind name="pattern_username" value="'%'+_parameter.getUsername()+'%'"/>
+	 	select * from t_customer where username like #{pattern_username}
+	 </select>
+	
+</mapper>

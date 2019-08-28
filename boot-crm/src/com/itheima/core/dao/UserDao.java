@@ -1,0 +1,10 @@
+package com.itheima.core.dao;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.itheima.core.po.User;
+
+//用户DAO接口
+public interface UserDao {
+	public User findUser(@Param("usercode")String usercode,@Param("password")String password);
+}

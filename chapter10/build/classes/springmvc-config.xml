@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+     <!-- 配置处理器，映射"/firstController" -->
+     <bean name="/firstController" class="com.itheima.controller.FirstController">
+     </bean>
+     <!--  处理映射器，将处理器Handler的name作为url进行查找 -->
+     <bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"></bean>
+     <!-- 配置处理器适配器，配置对处理器中的HandleRequest()方法进行调用 -->
+     <bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"></bean>
+     <!-- 视图解析器 -->
+     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"></bean>
+</beans>

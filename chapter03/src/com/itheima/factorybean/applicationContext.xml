@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+     <!-- 目标类 -->
+	<bean id="userDao" class="com.itheima.jdk.UserDaoImpl"></bean>
+	<!-- 切面类 -->
+	<bean id="myAspect" class="com.itheima.factorybean.MyAspect"></bean>
+	<!-- 使用spring代理工厂定义一个名为userDaoProxy的代理对象 -->
+	<bean id="userDaoProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="proxyInterfaces" value="com.itheima.jdk.UserDao"></property>
+		<property name="target" ref="userDao"></property>
+		<property name="interceptorNames" value="myAspect"></property>
+		<property name="proxyTargetClass" value="true"></property>
+	</bean>
+<!-- 	指定代理实现的接口
+	指定目标对象
+	指定切面，织入环绕通知
+	指定代理方式，true：使用cglib，false(默认)：使用jdk动态代理 -->
+	
+</beans>

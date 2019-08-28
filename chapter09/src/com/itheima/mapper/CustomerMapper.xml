@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <!-- 
+ Mapper代理开发规范：
+ 1.Mapeer接口名称和对应的Mapper.xml映射文件名称必须一致
+ 2.Mapper.xml文件的namespeace与Mapper接口的类路径相同(接口文件和映射文件要放在同一个包中)
+ 3.Mapper接口中的方法名和Mapper.xml中定义的每个执行语句的id相同
+ 4.Mapper接口中方法输入的参数类型和Mapper.xml中定义的每个sql的parameterType类型相同
+ 5.Mapper接口方法的输出参数类型和Mapper.xml中定义的每个sql的resultType类型相同
+  -->
+ 
+ <!--namespace表示命名空间，唯一  -->
+<!-- <mapper namespace="com.itheima.mapper.CustomerMapper">
+	根据id查询客户信息 - ->
+	<select id="findCustomerById" parameterType="Integer" resultType="Customer">
+		select * from t_customer where id=#{id}
+	</select>
+	<insert id="addCustomer" parameterType="customer">
+		insert into t_customer(username,jobs,phone)values(#{username},#{jobs},#{phone})
+	</insert>
+</mapper>

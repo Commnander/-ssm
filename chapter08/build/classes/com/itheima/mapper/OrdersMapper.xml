@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <!--namespace表示命名空间，唯一  -->
+<mapper namespace="com.itheima.mapper.OrdersMapper">
+<!--多对多：嵌套语句，结果执行另外一条sql映射返回预期类型  -->
+<select id="findOrdersWithProduct" parameterType="Integer" 
+resultMap="OrdersWithProductResult">
+	select * from tb_orders where id=#{id}
+</select>
+	<resultMap type="Orders" id="OrdersWithProductResult">
+		<id property="id" column="id"/>
+		<result property="number" column="number"/>
+		<collection property="products" column="id" ofType="Product" select="com.itheima.mapper.ProductMapper.findProductById"></collection>
+	</resultMap>
+	
+	
+	<!--多对多：嵌套结果  -->
+	<select id="findOrdersWithProduct2" parameterType="Integer" 
+resultMap="OrdersWithProductResult2">
+	select o.*,p.id as pid,p.name,p.price from tb_orders o,tb_product p,tb_ordersitem oi
+	where oi.orders_id=o.id
+	and oi.product_id=p.id
+	and o.id=#{id}
+</select>
+<resultMap type="Orders" id="OrdersWithProductResult2">
+		<id property="id" column="id"/>
+		<result property="number" column="number"/>
+		<!--多对多关联映射：collection  -->
+		<collection property="products" column="id" ofType="Product" >
+			<id property="id" column="pid"></id>
+			<result property="name" column="name"></result>
+			<result property="price" column="price"></result>
+		</collection>
+	</resultMap>
+</mapper>

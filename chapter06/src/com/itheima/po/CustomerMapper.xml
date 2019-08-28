@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <!--namespace表示命名空间，唯一  -->
+<mapper namespace="com.itheima.po.Customer">
+<!--resultType是返回值，parameterType是传入值  -->
+ <select id="findCustomerById" resultType="com.itheima.po.Customer" parameterType="Integer">
+ select * from t_customer where id = #{id}
+ </select>
+ <!-- 模糊查询 -->
+ <!--防止sql注入，不用${value}，用#{id}可以  -->
+ <select id="findCustomerByName" resultType="com.itheima.po.Customer" parameterType="String">
+ select * from t_customer where username like concat('%',#{username},'%')
+ </select>
+ <insert id="addCustomer" parameterType="com.itheima.po.Customer">
+ insert into t_customer(username,jobs,phone)values(#{username},#{jobs},#{phone})
+ </insert>
+ <update id="updateCustomer" parameterType="com.itheima.po.Customer" >
+ update t_customer set username=#{username},jobs=#{jobs},phone=#{phone} where id=#{id}
+ </update>
+ <delete id="deleteCustomer" parameterType="Integer">
+ 	delete  from t_customer where id=#{id} 
+ </delete>
+</mapper>
